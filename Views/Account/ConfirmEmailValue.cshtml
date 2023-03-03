@@ -1,0 +1,18 @@
+﻿@{
+}
+
+<div class="container d-flex justify-content-center">
+    <div class="col-md-6">
+        @if(TempData["error"] != "" && TempData["error"] != null)
+        {
+            <p class="alert alert-danger">@TempData["error"]</p>
+        }
+
+        @if (TempData["success"] != "" && TempData["success"] != null)
+        {
+            <p class="alert alert-success">@TempData["success"]</p>
+        }
+        
+        <a asp-controller="Account" asp-action="Login">Giriş Yap</a>
+    </div>
+</div>

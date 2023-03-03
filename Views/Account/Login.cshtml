@@ -1,0 +1,45 @@
+﻿@{
+   
+}
+
+<div class="container d-flex justify-content-center">
+    <div class="col-md-5">        
+        <form asp-controller="Account" asp-action="Login" method="post">
+            <div class="form-group mt-2">
+                <label for="emailOrUserName">Email / Kullanıcı Adı</label>
+                <input required minLength="3" value="@TempData["emailOrUserName"]" class="form-control" name="emailOrUserName" id="emailOrUserName" />
+            </div>
+            <div class="form-group mt-2">
+                <label for="password">Şifre</label>
+                <input required minLength="6" type="password" class="form-control" id="password" name="password" />
+            </div>
+            <div class="form-group mt-2">
+                <button class="btn btn-outline-primary w-100">Giriş Yap</button>
+                <a 
+                    asp-controller="Account"
+                   asp-action="SendEmailConfirmValue">
+                    Mail Onayını Tekrar Gönder
+                </a>
+                <a 
+                    asp-controller="Account" 
+                    asp-action="Register"
+                    style="float:right;">
+                    Kayıt Ol
+                </a>
+                <br />
+                <a asp-controller="Account"
+                   asp-action="SendEmailForgotPassword">
+                    Şifremi Unuttum
+                </a>
+            </div>
+        </form>
+        @if (TempData["error"] != "" && TempData["error"] != null)
+        {
+            <p class="alert alert-danger mt-2">@TempData["error"]</p>
+        }
+        @if (TempData["success"] != "" && TempData["success"] != null)
+        {
+            <p class="alert alert-success mt-2">@TempData["success"]</p>
+        }
+    </div>
+</div>

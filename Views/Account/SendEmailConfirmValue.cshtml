@@ -1,0 +1,21 @@
+﻿@{
+}
+
+<div class="container d-flex justify-content-center">
+    <div class="col-md-4">
+        <h1>Onay Maili Gönder</h1>
+        <form asp-controller="Account" asp-action="SendEmailConfirmValue" method="post">
+            <div class="form-group">
+                <label for="emailOrUserName">Mail Adresi / Kullanıcı Adı</label>
+                <input class="form-control" name="emailOrUserName" id="emailOrUserName" required minLength="3"/>
+            </div>
+            <div class="form-group mt-2">
+                <button class="btn btn-outline-info w-100">Mail Onayı Gönder</button>
+            </div>
+        </form>
+        @if (TempData["error"] != "" && TempData["error"] != null)
+        {
+            <p class="alert alert-danger mt-2">@TempData["error"]</p>
+        }
+    </div>
+</div>
