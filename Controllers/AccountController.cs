@@ -5,6 +5,7 @@ using SendGrid.Helpers.Mail;
 using SendGrid;
 using Microsoft.EntityFrameworkCore;
 using AuthenticationWebUI.Commons;
+using AuthenticationWebUI.Context;
 
 namespace AuthenticationWebUI.Controllers;
 
@@ -12,10 +13,12 @@ public class AccountController : Controller
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
-    public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+    private readonly AppDbContext _context;
+    public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, AppDbContext context)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _context = context;
     }
 
     public async Task<IActionResult> Login()
@@ -118,7 +121,7 @@ public class AccountController : Controller
         };
         await _userManager.CreateAsync(user, password);
 
-        await CommonMethods.SendEmail(user, "ConfirmEmail");
+        await CommonMethods.SendEmailWithHotmail(user, "ConfirmEmail", _context);
 
         TempData["success"] = "Kullanıcınız oluşturuldu. Mail adresinizi onayladıktan sonra giriş yapabilirsiniz!";
         return RedirectToAction("Login");
@@ -181,7 +184,7 @@ public class AccountController : Controller
             return View();
         }
 
-        await CommonMethods.SendEmail(user, "ConfirmEmail");
+        await CommonMethods.SendEmailWithHotmail(user, "ConfirmEmail", _context);
 
         TempData["success"] = "Onay maili başarıyla gönderildi!";
         return RedirectToAction("Login");
@@ -236,7 +239,7 @@ public class AccountController : Controller
         user.IsForgotPasswordConfirmValueActive = true;
         await _userManager.UpdateAsync(user);
 
-        await CommonMethods.SendEmail(user, "ForgotPassword");
+        await CommonMethods.SendEmailWithHotmail(user, "ForgotPassword",_context);
         
         return RedirectToAction("ChangePassword");
     }
